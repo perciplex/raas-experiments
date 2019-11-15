@@ -7,6 +7,9 @@ import gym_raas
 '''
 '''
 
+curses.halfdelay(1)
+
+
 class curses_env:
 
     def __init__(self):
@@ -25,6 +28,7 @@ class curses_env:
         torque_incr = 0.1
 
         last_action_str_pos = [0, 10]
+        waiting_str_pos = [0, 12]
         torque_str_pos = [0, 6]
 
         x_str_pos = [0, 2]
@@ -93,6 +97,12 @@ class curses_env:
             elif c == ord('q'):
                 print('you pressed q! exiting', 1)
                 break  # Exit the while loop
+
+
+            else:
+                self.env._get_obs()
+                stdscr.addstr(waiting_str_pos[1], waiting_str_pos[0], 'Waiting for next command...')
+                self.moveCursorRefresh(stdscr)
 
 
     def moveCursorRefresh(self, stdscr):
