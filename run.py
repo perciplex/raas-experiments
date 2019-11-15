@@ -3,7 +3,8 @@ import gym_raas
 import numpy as np
 import time
 
-freq = 2.0
+freq = 0.7
+phase_0 = np.pi/2
 start_time = time.time()
 
 
@@ -19,9 +20,9 @@ try:
 
         dt = time.time() - start_time
 
-        torque = np.sin(2*np.pi*f*dt)
-
-        observation, reward, done, info = env.step([2])
+        torque = 5*np.sin(2*np.pi*freq*dt + phase_0)
+        torque = np.clip(torque, -2, 2)
+        observation, reward, done, info = env.step([torque])
         time.sleep(0.01)
         obs.append(observation)
 
