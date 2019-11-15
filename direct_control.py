@@ -56,7 +56,7 @@ class curses_env:
 
             if c == curses.KEY_RIGHT:
                 torque -= torque_incr
-                obs, reward, done, info = env.step([torque])
+                obs, reward, done, info = self.env.step([torque])
                 x, y, thetadot = obs
 
                 time.sleep(delay_time)
@@ -74,7 +74,7 @@ class curses_env:
             if c == ord('r'):
 
                 torque = 0.0
-                obs, reward, done, info = env.step([torque])
+                obs, reward, done, info = self.env.step([torque])
                 x, y, thetadot = obs
 
                 time.sleep(delay_time)
@@ -100,7 +100,7 @@ class curses_env:
         stdscr.refresh() #Do this after addstr
 
 
-    def directControl(self.):
+    def directControl(self):
         print('entering curses loop', 1)
         curses.wrapper(self.DCloop)
         print('exited curses loop.', 1)
