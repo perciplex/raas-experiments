@@ -6,8 +6,10 @@ import gym
 import gym_raas
 '''
 '''
+
 stdscr = curses.initscr()
 curses.halfdelay(1)
+curses.noecho()
 
 
 class curses_env:
@@ -40,63 +42,65 @@ class curses_env:
         while True:
             c = stdscr.getch()
 
-            if c == curses.KEY_LEFT:
-                torque += torque_incr
-                obs, reward, done, info = self.env.step([torque])
-                x, y, thetadot = obs
+            if c != curses.ERR:
 
-                time.sleep(delay_time)
-                self.drawStandard(stdscr)
+                if c == curses.KEY_LEFT:
+                    torque += torque_incr
+                    obs, reward, done, info = self.env.step([torque])
+                    x, y, thetadot = obs
 
-                stdscr.addstr(x_str_pos[1], x_str_pos[0], 'x = {:.2f}'.format(x))
-                stdscr.addstr(y_str_pos[1], y_str_pos[0], 'y = {:.2f}'.format(y))
-                stdscr.addstr(thetadot_str_pos[1], thetadot_str_pos[0], 'thetadot = {:.2f}'.format(thetadot))
+                    time.sleep(delay_time)
+                    self.drawStandard(stdscr)
 
-                stdscr.addstr(torque_str_pos[1], torque_str_pos[0], 'Current torque = {:.2f}'.format(torque))
+                    stdscr.addstr(x_str_pos[1], x_str_pos[0], 'x = {:.2f}'.format(x))
+                    stdscr.addstr(y_str_pos[1], y_str_pos[0], 'y = {:.2f}'.format(y))
+                    stdscr.addstr(thetadot_str_pos[1], thetadot_str_pos[0], 'thetadot = {:.2f}'.format(thetadot))
 
-                stdscr.addstr(last_action_str_pos[1], last_action_str_pos[0], 'Pressed Left key, incrementing torque')
-                self.moveCursorRefresh(stdscr)
+                    stdscr.addstr(torque_str_pos[1], torque_str_pos[0], 'Current torque = {:.2f}'.format(torque))
 
-
-            if c == curses.KEY_RIGHT:
-                torque -= torque_incr
-                obs, reward, done, info = self.env.step([torque])
-                x, y, thetadot = obs
-
-                time.sleep(delay_time)
-                self.drawStandard(stdscr)
-
-                stdscr.addstr(x_str_pos[1], x_str_pos[0], 'x = {:.2f}'.format(x))
-                stdscr.addstr(y_str_pos[1], y_str_pos[0], 'y = {:.2f}'.format(y))
-                stdscr.addstr(thetadot_str_pos[1], thetadot_str_pos[0], 'thetadot = {:.2f}'.format(thetadot))
-
-                stdscr.addstr(torque_str_pos[1], torque_str_pos[0], 'Current torque = {:.2f}'.format(torque))
-
-                stdscr.addstr(last_action_str_pos[1], last_action_str_pos[0], 'Pressed Right key, decrementing torque')
-                self.moveCursorRefresh(stdscr)
-
-            if c == ord('r'):
-
-                torque = 0.0
-                obs, reward, done, info = self.env.step([torque])
-                x, y, thetadot = obs
-
-                time.sleep(delay_time)
-                self.drawStandard(stdscr)
-
-                stdscr.addstr(x_str_pos[1], x_str_pos[0], 'x = {:.2f}'.format(x))
-                stdscr.addstr(y_str_pos[1], y_str_pos[0], 'y = {:.2f}'.format(y))
-                stdscr.addstr(thetadot_str_pos[1], thetadot_str_pos[0], 'thetadot = {:.2f}'.format(thetadot))
-
-                stdscr.addstr(torque_str_pos[1], torque_str_pos[0], 'Current torque = {:.2f}'.format(torque))
-
-                stdscr.addstr(last_action_str_pos[1], last_action_str_pos[0], 'Pressed r, refreshing')
-                self.moveCursorRefresh(stdscr)
+                    stdscr.addstr(last_action_str_pos[1], last_action_str_pos[0], 'Pressed Left key, incrementing torque')
+                    self.moveCursorRefresh(stdscr)
 
 
-            elif c == ord('q'):
-                print('you pressed q! exiting', 1)
-                break  # Exit the while loop
+                if c == curses.KEY_RIGHT:
+                    torque -= torque_incr
+                    obs, reward, done, info = self.env.step([torque])
+                    x, y, thetadot = obs
+
+                    time.sleep(delay_time)
+                    self.drawStandard(stdscr)
+
+                    stdscr.addstr(x_str_pos[1], x_str_pos[0], 'x = {:.2f}'.format(x))
+                    stdscr.addstr(y_str_pos[1], y_str_pos[0], 'y = {:.2f}'.format(y))
+                    stdscr.addstr(thetadot_str_pos[1], thetadot_str_pos[0], 'thetadot = {:.2f}'.format(thetadot))
+
+                    stdscr.addstr(torque_str_pos[1], torque_str_pos[0], 'Current torque = {:.2f}'.format(torque))
+
+                    stdscr.addstr(last_action_str_pos[1], last_action_str_pos[0], 'Pressed Right key, decrementing torque')
+                    self.moveCursorRefresh(stdscr)
+
+                if c == ord('r'):
+
+                    torque = 0.0
+                    obs, reward, done, info = self.env.step([torque])
+                    x, y, thetadot = obs
+
+                    time.sleep(delay_time)
+                    self.drawStandard(stdscr)
+
+                    stdscr.addstr(x_str_pos[1], x_str_pos[0], 'x = {:.2f}'.format(x))
+                    stdscr.addstr(y_str_pos[1], y_str_pos[0], 'y = {:.2f}'.format(y))
+                    stdscr.addstr(thetadot_str_pos[1], thetadot_str_pos[0], 'thetadot = {:.2f}'.format(thetadot))
+
+                    stdscr.addstr(torque_str_pos[1], torque_str_pos[0], 'Current torque = {:.2f}'.format(torque))
+
+                    stdscr.addstr(last_action_str_pos[1], last_action_str_pos[0], 'Pressed r, refreshing')
+                    self.moveCursorRefresh(stdscr)
+
+
+                elif c == ord('q'):
+                    print('you pressed q! exiting', 1)
+                    break  # Exit the while loop
 
 
             else:
