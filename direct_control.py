@@ -6,7 +6,7 @@ import gym
 import gym_raas
 '''
 '''
-
+stdscr = curses.initscr()
 curses.halfdelay(1)
 
 
@@ -100,7 +100,16 @@ class curses_env:
 
 
             else:
-                self.env._get_obs()
+                x, y, thetadot = self.env._get_obs()
+
+                self.drawStandard(stdscr)
+
+                stdscr.addstr(x_str_pos[1], x_str_pos[0], 'x = {:.2f}'.format(x))
+                stdscr.addstr(y_str_pos[1], y_str_pos[0], 'y = {:.2f}'.format(y))
+                stdscr.addstr(thetadot_str_pos[1], thetadot_str_pos[0], 'thetadot = {:.2f}'.format(thetadot))
+
+                stdscr.addstr(torque_str_pos[1], torque_str_pos[0], 'Current torque = {:.2f}'.format(torque))
+
                 stdscr.addstr(waiting_str_pos[1], waiting_str_pos[0], 'Waiting for next command...')
                 self.moveCursorRefresh(stdscr)
 
