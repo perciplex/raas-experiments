@@ -13,12 +13,16 @@ obs = []
 pause_time = 2.0
 reset_time = 2.0
 
-torques = np.linspace(-2, 2, 24).tolist() + np.linspace(2, -2, 24).tolist()
+n_pts = 40
+
+torques = np.linspace(-2, 2, n_pts).tolist() + np.linspace(2, -2, n_pts).tolist()
 
 xs = []
 ys = []
 
 try:
+
+    print('\nGetting to top position...\n')
 
     for t in np.linspace(0, -2, 10):
 
@@ -27,12 +31,14 @@ try:
             time.sleep(0.15)
             x, y, thetadot = env._get_obs()
 
-            if (time.time() - start_time) >= 0.5:
+            if (time.time() - start_time) >= pause_time:
                 break
 
         print(f'\nApplying torque = {t:.2f}')
         _, _, _, _ = env.step([t])
 
+
+    print('\nDoing real torque tests...\n')
 
     for t in torques:
 
@@ -53,6 +59,7 @@ try:
         ys.append(y)
 
         print('\nFinal:\n\n x = {:.3f},\t y = {:.3f},\t thetadot = {:.3f}'.format(x, y, thetadot))
+        print('Angle = {:.3f}'.format(np.arctan2(y, x)))
 
 
 
